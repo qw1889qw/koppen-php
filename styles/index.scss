@@ -1,0 +1,114 @@
+/* mobile-first! */
+
+@use 'util/variables';
+@use 'util/mixins';
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: variables.$body-fonts;
+  text-align: center;
+  margin: 0;
+}
+
+header {
+  padding: 2rem;
+  background: #f2f2f2;
+  @include mixins.center-flex;
+  flex-direction: column;
+  & > * {
+    padding: 1rem 0;
+  }
+}
+
+main {
+  background: white;
+  flex-grow: 1;
+}
+
+.heading {
+  font-weight: 500;
+  &--largest {
+    font-size: 3rem;
+    margin: 0 auto;
+  }
+  &--second-largest {
+    font-size: 1.25rem;
+  }
+}
+
+.form__input {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  &--submit {
+    width: 30vw;
+    height: 10vh;
+    border-radius: 5px;
+    margin: 1.5rem auto;
+    background: rgb(254,254,254);
+    font-size: 1rem;
+    font-family: variables.$body-fonts;
+  }
+}
+
+.form__div {
+  &--temp-grid,
+  &--rain-grid {
+    display: grid;
+    & > * {
+      border: variables.$indiv-input-border;
+      margin: 0;
+    }
+  }
+  &--temp-grid {
+    grid-template: repeat(12, 1fr) / repeat(2, 1fr);
+    & > * {
+      padding: .25rem;
+    }
+  }
+  &--rain-grid {
+    grid-template: repeat(12, 1fr) / repeat(1, 1fr);
+    & > * {
+      padding: .5rem;
+    }
+  }
+}
+
+.fieldset {
+  margin: 2vh auto;
+}
+
+.fieldset--rain {
+  width: 60vw;
+}
+
+@media (max-width: 767px) {
+  header {
+    height: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    display: flex;
+  }
+}
+
+.one-side {
+  display: inline-block;
+  padding: .25rem;
+  & > * {
+    display: inline-block;
+    padding: .1rem;
+  }
+}

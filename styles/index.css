@@ -1,0 +1,109 @@
+/* mobile-first! */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+}
+
+header {
+  padding: 2rem;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+header > * {
+  padding: 1rem 0;
+}
+
+main {
+  background: white;
+  flex-grow: 1;
+}
+
+.heading {
+  font-weight: 500;
+}
+.heading--largest {
+  font-size: 3rem;
+  margin: 0 auto;
+}
+.heading--second-largest {
+  font-size: 1.25rem;
+}
+
+.form__input {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.form__input--submit {
+  width: 30vw;
+  height: 10vh;
+  border-radius: 5px;
+  margin: 1.5rem auto;
+  background: #fefefe;
+  font-size: 1rem;
+  font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
+}
+
+.form__div--temp-grid, .form__div--rain-grid {
+  display: grid;
+}
+.form__div--temp-grid > *, .form__div--rain-grid > * {
+  border: 1px solid #c8c8c8;
+  margin: 0;
+}
+.form__div--temp-grid {
+  grid-template: repeat(12, 1fr)/repeat(2, 1fr);
+}
+.form__div--temp-grid > * {
+  padding: 0.25rem;
+}
+.form__div--rain-grid {
+  grid-template: repeat(12, 1fr)/repeat(1, 1fr);
+}
+.form__div--rain-grid > * {
+  padding: 0.5rem;
+}
+
+.fieldset {
+  margin: 2vh auto;
+}
+
+.fieldset--rain {
+  width: 60vw;
+}
+
+@media (max-width: 767px) {
+  header {
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  body {
+    display: flex;
+  }
+}
+.one-side {
+  display: inline-block;
+  padding: 0.25rem;
+}
+.one-side > * {
+  display: inline-block;
+  padding: 0.1rem;
+}
+
+/*# sourceMappingURL=index.css.map */
