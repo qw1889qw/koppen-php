@@ -50,15 +50,6 @@ main {
   display: block;
   margin: 0 auto;
   text-align: center;
-  &--submit {
-    width: 30vw;
-    height: 10vh;
-    border-radius: 5px;
-    margin: 1.5rem auto;
-    background: rgb(254,254,254);
-    font-size: 1rem;
-    font-family: variables.$body-fonts;
-  }
 }
 
 .form__div {
@@ -86,10 +77,29 @@ main {
 
 .fieldset {
   margin: 2vh auto;
+  &--rain {
+    width: 60vw;
+  }
 }
 
-.fieldset--rain {
-  width: 60vw;
+.one-side {
+  display: inline-block;
+  padding: .25rem;
+  & > * {
+    display: inline-block;
+    padding: .1rem;
+  }
+}
+
+.bottom-button {
+  display: inline-block;
+  width: 30vw;
+  height: 10vh;
+  border-radius: 5px;
+  margin: 1rem 1rem 2rem;
+  background: rgb(254,254,254);
+  font-size: 1rem;
+  font-family: variables.$body-fonts;
 }
 
 @media (max-width: 767px) {
@@ -101,14 +111,5 @@ main {
 @media (min-width: 768px) {
   body {
     display: flex;
-  }
-}
-
-.one-side {
-  display: inline-block;
-  padding: .25rem;
-  & > * {
-    display: inline-block;
-    padding: .1rem;
   }
 }

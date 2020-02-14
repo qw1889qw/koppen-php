@@ -49,15 +49,6 @@ main {
   margin: 0 auto;
   text-align: center;
 }
-.form__input--submit {
-  width: 30vw;
-  height: 10vh;
-  border-radius: 5px;
-  margin: 1.5rem auto;
-  background: #fefefe;
-  font-size: 1rem;
-  font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
-}
 
 .form__div--temp-grid, .form__div--rain-grid {
   display: grid;
@@ -82,9 +73,28 @@ main {
 .fieldset {
   margin: 2vh auto;
 }
-
 .fieldset--rain {
   width: 60vw;
+}
+
+.one-side {
+  display: inline-block;
+  padding: 0.25rem;
+}
+.one-side > * {
+  display: inline-block;
+  padding: 0.1rem;
+}
+
+.bottom-button {
+  display: inline-block;
+  width: 30vw;
+  height: 10vh;
+  border-radius: 5px;
+  margin: 1rem 1rem 2rem;
+  background: #fefefe;
+  font-size: 1rem;
+  font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
 }
 
 @media (max-width: 767px) {
@@ -96,14 +106,6 @@ main {
   body {
     display: flex;
   }
-}
-.one-side {
-  display: inline-block;
-  padding: 0.25rem;
-}
-.one-side > * {
-  display: inline-block;
-  padding: 0.1rem;
 }
 
 /*# sourceMappingURL=index.css.map */
