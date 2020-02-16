@@ -5,6 +5,6 @@ export function clearAllInputs() {
       location.replace(location.href); // input-clearing script was executed, now reload page w/ GET request
     }
   }
-  xhr.open('GET', 'inputs.php');
+  xhr.open('GET', 'clear.php');
   xhr.send();
 }

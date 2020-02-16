@@ -14,9 +14,9 @@ imperial.addEventListener('click', () => {
 });
 
 clearButton.addEventListener('click', () => {
-  const inputs = document.querySelectorAll('input[type="number"]');
+  /* const inputs = document.querySelectorAll('input[type="number"]');
   inputs.forEach(input => {
     input.value = '';
-  });
+  }); */
   clearAllInputs();
 });
