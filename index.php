@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', '1');
+ini_set('display_errors', '1'); // delete once done
 
 session_start();
 
@@ -15,11 +15,8 @@ require_once 'functions.php';
 if (!empty($_POST)) {
   $_SESSION = $_POST;
   unset($_POST); // $_SESSION still retains values
+  $list1 = new InputList($_SESSION);
 }
-
-$list1 = new InputList($_SESSION);
-$list1->get_avg_month_temps();
-$list1->print_self();
 
 /* echo '$_POST: <br>';
 print_r($_POST);
@@ -150,51 +147,51 @@ print_r($_SESSION); */
           <div class="form__div form__div--rain-grid">
             <p>
               <label for="rain_jan">January</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_jan" name="rain_jan" value="<?php show_if_set('rain_jan'); ?>"placeholder="January">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_jan" name="rain_jan" value="<?php show_if_set('rain_jan'); ?>"placeholder="January">
             </p>
             <p>
               <label for="rain_feb">February</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_feb" name="rain_feb" value="<?php show_if_set('rain_feb'); ?>"placeholder="February">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_feb" name="rain_feb" value="<?php show_if_set('rain_feb'); ?>"placeholder="February">
             </p>
             <p>
               <label for="rain_mar">March</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_mar" name="rain_mar" value="<?php show_if_set('rain_mar'); ?>"placeholder="March">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_mar" name="rain_mar" value="<?php show_if_set('rain_mar'); ?>"placeholder="March">
             </p>
             <p>
               <label for="rain_apr">April</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_apr" name="rain_apr" value="<?php show_if_set('rain_apr'); ?>"placeholder="April">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_apr" name="rain_apr" value="<?php show_if_set('rain_apr'); ?>"placeholder="April">
             </p>
             <p>
               <label for="rain_may">May</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_may" name="rain_may" value="<?php show_if_set('rain_may'); ?>"placeholder="May">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_may" name="rain_may" value="<?php show_if_set('rain_may'); ?>"placeholder="May">
             </p>
             <p>
               <label for="rain_jun">June</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_jun" name="rain_jun" value="<?php show_if_set('rain_jun'); ?>"placeholder="June">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_jun" name="rain_jun" value="<?php show_if_set('rain_jun'); ?>"placeholder="June">
             </p>
             <p>
               <label for="rain_jul">July</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_jul" name="rain_jul" value="<?php show_if_set('rain_jul'); ?>"placeholder="July">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_jul" name="rain_jul" value="<?php show_if_set('rain_jul'); ?>"placeholder="July">
             </p>
             <p>
               <label for="rain_aug">August</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_aug" name="rain_aug" value="<?php show_if_set('rain_aug'); ?>"placeholder="August">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_aug" name="rain_aug" value="<?php show_if_set('rain_aug'); ?>"placeholder="August">
             </p>
             <p>
               <label for="rain_sep">September</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_sep" name="rain_sep" value="<?php show_if_set('rain_sep'); ?>"placeholder="September">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_sep" name="rain_sep" value="<?php show_if_set('rain_sep'); ?>"placeholder="September">
             </p>
             <p>
               <label for="rain_oct">October</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_oct" name="rain_oct" value="<?php show_if_set('rain_oct'); ?>"placeholder="October">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_oct" name="rain_oct" value="<?php show_if_set('rain_oct'); ?>"placeholder="October">
             </p>
             <p>
               <label for="rain_nov">November</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_nov" name="rain_nov" value="<?php show_if_set('rain_nov'); ?>"placeholder="November">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_nov" name="rain_nov" value="<?php show_if_set('rain_nov'); ?>"placeholder="November">
             </p>
             <p>
               <label for="rain_dec">December</label>
-              <input required class="form__input" type="number" step="0.01" id="rain_dec" name="rain_dec" value="<?php show_if_set('rain_dec'); ?>"placeholder="December">
+              <input required class="form__input" type="number" step="0.01" min="0" id="rain_dec" name="rain_dec" value="<?php show_if_set('rain_dec'); ?>"placeholder="December">
             </p>
           </div>
         </fieldset>
