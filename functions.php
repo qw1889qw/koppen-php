@@ -15,3 +15,19 @@ function get_first_element($arr = []) {
 function get_second_element($arr = []) {
   return $arr[1];
 }
+
+function determine_checked($obj, $prop, $val) {
+  if (isset($obj)) {
+    if ($obj->$prop === $val) {
+      echo 'checked';
+    }
+  }
+}
+
+function determine_checked_default($obj, $prop, $val) {
+  if (isset($obj)) {
+    determine_checked($obj, $prop, $val);
+  } else {
+    echo 'checked';
+  }
+}

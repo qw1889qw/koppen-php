@@ -16,7 +16,9 @@ if (!empty($_POST)) {
   $_SESSION = $_POST;
   unset($_POST); // $_SESSION still retains values
   $list1 = new InputList($_SESSION);
+  $list1->print_self();
 }
+
 
 /* echo '$_POST: <br>';
 print_r($_POST);
@@ -200,11 +202,11 @@ print_r($_SESSION); */
           <div class="side-by-side">
             <p class="one-side">
               <label for="unit_metric">metric</label>
-              <input required class="form__input" type="radio" id="unit_metric" name="unit" value="metric">
+              <input required class="form__input" type="radio" id="unit_metric" name="unit" value="metric" <?php determine_checked($list1, 'unit', 'metric'); ?>>
             </p>
             <p class="one-side">
               <label for="unit_imperial">imperial</label>
-              <input required class="form__input" type="radio" id="unit_imperial" name="unit" value="imperial" checked>
+              <input required class="form__input" type="radio" id="unit_imperial" name="unit" value="imperial" <?php determine_checked_default($list1, 'unit', 'imperial'); ?>>
             </p>
           </div>
         </fieldset>
@@ -213,11 +215,24 @@ print_r($_SESSION); */
           <div class="side-by-side">
             <p class="one-side">
               <label for="isotherm-zero">0&deg;</label>
-              <input required class="form__input" type="radio" id="isotherm-zero" name="isotherm" value="zero" checked>
+              <input required class="form__input" type="radio" id="isotherm-zero" name="isotherm" value="zero" <?php determine_checked_default($list1, 'isotherm', 'zero'); ?>>
             </p>
             <p class="one-side">
               <label for="isotherm-neg-three">-3&deg;</label>
-              <input required class="form__input" type="radio" id="isotherm-neg-three" name="isotherm" value="neg-three">
+              <input required class="form__input" type="radio" id="isotherm-neg-three" name="isotherm" value="neg-three" <?php determine_checked($list1, 'isotherm', 'neg-three'); ?>>
+            </p>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend>northern or southern hemisphere?</legend>
+          <div class="side-by-side">
+            <p class="one-side">
+              <label for="hemisphere-north">north</label>
+              <input required class="form__input" type="radio" id="hemisphere-north" name="hemisphere" value="north" <?php determine_checked_default($list1, 'hemisphere', 'north'); ?>>
+            </p>
+            <p class="one-side">
+              <label for="hemisphere-south">south</label>
+              <input required class="form__input" type="radio" id="hemisphere-south" name="hemisphere" value="south" <?php determine_checked($list1, 'hemisphere', 'south'); ?>>
             </p>
           </div>
         </fieldset>
