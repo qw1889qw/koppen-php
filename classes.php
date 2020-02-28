@@ -17,11 +17,17 @@ class InputList {
       // get summer rainfall (Apr-Sep for northern hemisphere, Oct-Mar for southern)
       if ($this->hemisphere === 'north') {
         if (in_array($month_in, ['rain_apr', 'rain_may', 'rain_jun', 'rain_jul', 'rain_aug', 'rain_sep'])) {
+          $this->summer_rain_measurements[] = $this->$month_mm;
           $this->summer_rainfall_mm += $this->$month_mm;
+        } else {
+          $this->winter_rain_measurements[] = $this->$month_mm;
         }
       } else {
         if (in_array($month_in, ['rain_oct', 'rain_nov', 'rain_dec', 'rain_jan', 'rain_feb', 'rain_mar'])) {
+          $this->summer_rain_measurements[] = $this->$month_mm;
           $this->summer_rainfall_mm += $this->$month_mm;
+        } else {
+          $this->winter_rain_measurements[] = $this->$month_mm;
         }
       }
     }
@@ -31,6 +37,19 @@ class InputList {
     $this->avg_temp_array = [];
     $this->avg_temp_array_c = [];
     foreach (self::$avg_array as $month_avg) {
+      if (in_array($month_avg, ['avg_temp_apr', 'avg_temp_may', 'avg_temp_jun', 'avg_temp_jul', 'avg_temp_aug', 'avg_temp_sep'])) {
+        if ($this->hemisphere === 'north') {
+          $this->summer_temp_measurements[] = $this->$month_avg;
+        } else {
+          $this->winter_temp_measurements[] = $this->$month_avg;
+        }
+      } else {
+        if ($this->hemisphere === 'north') {
+          $this->winter_temp_measurements[] = $this->$month_avg;
+        } else {
+          $this->summer_temp_measurements[] = $this->$month_avg;
+        }
+      }
       $this->avg_temp_array[] = $this->$month_avg;
       $this->avg_temp_array_c[] = ($this->$month_avg - 32) / 1.8;
     }
@@ -69,9 +88,12 @@ class InputList {
 
   protected $total_rainfall_mm = 0;
   protected $summer_rainfall_mm = 0;
-  public function get_total_rainfall_mm() {
-    return $this->total_rainfall_mm;
-  }
+
+  protected $summer_temp_measurements = []; // will be in Fahrenheit (?)
+  protected $winter_temp_measurements = [];
+  protected $summer_rain_measurements = []; // will be in mm
+  protected $winter_rain_measurements = [];
+
   protected $tropical_threshold = 0;
   protected $dry_threshold = 0;
 
@@ -135,9 +157,9 @@ class InputList {
   public function is_bw_or_bs() {
     // if total rainfall less than 50% of threshold, it's BW; otherwise, it's BS */
     if ($this->total_rainfall_mm < ($this->dry_threshold / 2)) {
-      return 'bw';
+      return 'W';
     }
-    return 'bs';
+    return 'S';
   }
   public function is_dry_hot_or_cold() {
     // if average annual temp at least 18 degrees C, it's hot; otherwise, it's cold
@@ -151,7 +173,7 @@ class InputList {
   public function is_temperate() {
     // if not all months average above 0 or -3 deg C (depending on isotherm) or no months average above 10 deg C, it's not temperate
     $num_months_above_10_c = count(array_filter($this->avg_temp_array_c, function($element) {
-      return $element > 10;
+      return $element >= 10;
     }));
     if ($this->isotherm === 'zero') {
       $num_months_below_0_c = count(array_filter($this->avg_temp_array_c, function($element) {
@@ -171,12 +193,163 @@ class InputList {
       return true;
     }
   }
-  public function is_cs_cw_or_cf() {
-    // Cs climates have at >3x rainfall in wettest winter month as in driest summer month & driest summer month gets <30mm rain
-    if ($this->hemisphere === 'north') {
-      // ...
+  public function is_s_w_or_f() { // note: this also works for D climates
+    // Cs climates have >=3x rainfall in wettest winter month as in driest summer month & driest summer month gets <30mm rain
+    $wettest_winter_month_rainfall = max($this->winter_rain_measurements);
+    $driest_summer_month_rainfall = min($this->summer_rain_measurements);
+    if (($wettest_winter_month_rainfall >= 3 * $driest_summer_month_rainfall) && ($driest_summer_month_rainfall < 30)) {
+      return 's';
+    }
+    // Cw climates have >=10x rainfall in wettest summer month as in driest winter month
+    $wettest_summer_month_rainfall = max($this->summer_rain_measurements);
+    $driest_winter_month_rainfall = min($this->winter_rain_measurements);
+    if (($wettest_summer_month_rainfall >= 10 * $driest_winter_month_rainfall)) {
+      return 'w';
+    }
+    // Cf climates don't satisfy Cs or Cw criteria
+    return 'f';
+  }
+  public function is_temperate_continental_a_b_c_or_d() { // note: this works for both C & D climates (though you can't have C*d climates, only D*d climates)
+    $ten_deg_count = 0;
+    $twenty_two_deg_count = 0;
+    $neg_thirty_eight_deg_count = 0;
+    foreach ($this->avg_temp_array_c as $month_avg) {
+      if ($month_avg >= 22) {
+        $twenty_two_deg_count++;
+        $ten_deg_count++;
+      } elseif ($month_avg >= 10) {
+        $ten_deg_count++;
+      }
+      if ($month_avg < -38) {
+        $neg_thirty_eight_deg_count++;
+      }
+    }
+    // Csa/Cwa/Cfa/Dsa/Dwa/Dfa: at least 1 month avg. temp >=22 deg C, at least 4 months avg. temp >=10 deg C
+    if ($twenty_two_deg_count >= 1 && $ten_deg_count >= 4) {
+      return 'a';
+    }
+    // Csb/Cwb/Cfb/Dsb/Dwb/Dfb: all months avg. temp <22 deg C, at least 4 months avg. temp >=10 deg C
+    if ($twenty_two_deg_count === 0 && $ten_deg_count >= 4) {
+      return 'b';
+    }
+    // Csc/Cwc/Cfc/Dsc/Dwc/Dfc: 1-3 months avg. temp >=10 deg C
+    // Dsd/Dwd/Dfd: at least 1 month avg. temp <-38 deg C, 1-3 months avg. temp >= 10 deg C
+    if ($ten_deg_count >= 1 && $ten_deg_count <= 3) {
+      if ($this->is_continental()) {
+        if ($neg_thirty_eight_deg_count > 0) {
+          return 'd';
+        }
+      }
+      return 'c';
+    }
+    return 'a'; // default to Csa/Cwa/Cfa/Dsa/Dwa/Dfa just in case
+  }
+
+  // D (continental) climates
+  public function is_continental() {
+    // if not at least 1 month averaging below freezing or -3 deg C (depending on isotherm) & at least 1 month averaging above 10 deg C, it's not continental
+    $num_months_above_10_c = count(array_filter($this->avg_temp_array_c, function($element) {
+      return $element >= 10;
+    }));
+    $num_months_below_0_c = count(array_filter($this->avg_temp_array_c, function($element) {
+      return $element < 0;
+    }));
+    $num_months_below_neg3_c = count(array_filter($this->avg_temp_array_c, function($element) {
+      return $element < -3;
+    }));
+    if ($this->isotherm === 'zero') {
+      if ($num_months_above_10_c === 0 || $num_months_below_0_c === 0) {
+        return false;
+      }
+      return true;
     } else {
-      // ...
+      if ($num_months_above_10_c === 0 || $num_months_below_neg3_c === 0) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  // E (polar climates)
+  public function is_polar() {
+    // every month in a polar climate averages below 10 deg C
+    $ten_deg_count = 0;
+    foreach ($this->avg_temp_array_c as $month_avg) {
+      if ($month_avg >= 10) {
+        $ten_deg_count++;
+      }
+    }
+    if ($ten_deg_count > 0) {
+      return false;
+    }
+    return true;
+  }
+  public function is_et_or_ef() {
+    $above_zero_deg_count = 0;
+    foreach ($this->avg_temp_array_c as $month_avg) {
+      if ($month_avg >= 0) {
+        $above_zero_deg_count++;
+      }
+    }
+    if ($above_zero_deg_count > 0) {
+      return 'T';
+    }
+    return 'F';
+  }
+
+  // putting it all together
+  public function determine_koppen_classification() {
+    $classification = '';
+    // first letter
+    // B climates take priority over A climates; e.g. even though Honolulu has all 12 months averaging above 18 deg C, it meets B criteria so it's BSh instead of Aw/As
+    if ($this->is_dry()) {
+      $classification .= 'B';
+    } elseif ($this->is_tropical()) {
+      $classification .= 'A';
+    } elseif ($this->is_temperate()) {
+      $classification .= 'C';
+    } elseif ($this->is_continental()) {
+      $classification .= 'D';
+    } elseif ($this->is_polar()) {
+      $classification .= 'E';
+    }
+    // second letter of A climates
+    if ($classification === 'A') {
+      if ($this->is_af()) {
+        $classification .= 'f';
+      } elseif ($this->is_am_or_aw_as() === 'am') {
+        $classification .= 'm';
+      } elseif ($this->is_am_or_aw_as() === 'aw/as') {
+        $classification .= 'w/As';
+      }
+      return $classification;
+    }
+    // second letter of B climates
+    if ($classification === 'B') {
+      $classification .= $this->is_bw_or_bs();
+    }
+    // third letter of B climates
+    if ($classification === 'BW' || $classification === 'BS') {
+      if ($this->is_dry_hot_or_cold() === 'h') {
+        $classification .= 'h';
+      } else {
+        $classification .= 'k';
+      }
+      return $classification;
+    }
+    // second letter of C & D climates
+    if ($classification === 'C' || $classification === 'D') {
+      $classification .= $this->is_s_w_or_f();
+    }
+    // third letter of C & D climates
+    if (in_array($classification, ['Cs', 'Cw', 'Cf', 'Ds', 'Dw', 'Df'])) {
+      $classification .= $this->is_temperate_continental_a_b_c_or_d();
+      return $classification;
+    }
+    // second letter of E climates
+    if ($classification === 'E') {
+      $classification .= $this->is_et_or_ef();
+      return $classification;
     }
   }
 }
