@@ -16,7 +16,7 @@ if (!empty($_POST)) {
   $_SESSION = $_POST;
   unset($_POST); // $_SESSION still retains values
   $list1 = new InputList($_SESSION);
-  echo $list1->determine_koppen_classification();
+  $list1->print_self();
 }
 
 
