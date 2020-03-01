@@ -7,23 +7,26 @@ class InputList {
     }
     // convert rainfall from strings to floats/doubles just to avoid any potential coercion issues
     foreach (self::$rain_array as $month) {
-      $month_in = $month[0];
-      $this->$month_in = (float) $this->$month_in;
-      // if using imperial system, convert inches to mm for Am/Aw/As calculations
+      $month_first = $month[0];
       $month_mm = $month[1];
-      $this->$month_mm = $this->$month_in * 25.4;
+      // if using imperial system, convert inches to mm for calculations
+      if ($this->unit === 'imperial') {
+        $this->$month_mm = (float) $this->$month_first * 25.4;
+      } else {
+        $this->$month_mm = (float) $this->$month_first;
+      }
       // get total annual rainfall
       $this->total_rainfall_mm += $this->$month_mm;
       // get summer rainfall (Apr-Sep for northern hemisphere, Oct-Mar for southern)
       if ($this->hemisphere === 'north') {
-        if (in_array($month_in, ['rain_apr', 'rain_may', 'rain_jun', 'rain_jul', 'rain_aug', 'rain_sep'])) {
+        if (in_array($month_first, ['rain_apr', 'rain_may', 'rain_jun', 'rain_jul', 'rain_aug', 'rain_sep'])) {
           $this->summer_rain_measurements[] = $this->$month_mm;
           $this->summer_rainfall_mm += $this->$month_mm;
         } else {
           $this->winter_rain_measurements[] = $this->$month_mm;
         }
       } else {
-        if (in_array($month_in, ['rain_oct', 'rain_nov', 'rain_dec', 'rain_jan', 'rain_feb', 'rain_mar'])) {
+        if (in_array($month_first, ['rain_oct', 'rain_nov', 'rain_dec', 'rain_jan', 'rain_feb', 'rain_mar'])) {
           $this->summer_rain_measurements[] = $this->$month_mm;
           $this->summer_rainfall_mm += $this->$month_mm;
         } else {
@@ -34,9 +37,11 @@ class InputList {
     // get monthly average temperatures
     $this->get_avg_month_temps();
     // get annual average temperature in Fahrenheit & Celsius
-    $this->avg_temp_array = [];
     $this->avg_temp_array_c = [];
     foreach (self::$avg_array as $month_avg) {
+      if ($this->unit === 'imperial') {
+        $this->$month_avg = f_to_c($this->$month_avg);
+      }
       if (in_array($month_avg, ['avg_temp_apr', 'avg_temp_may', 'avg_temp_jun', 'avg_temp_jul', 'avg_temp_aug', 'avg_temp_sep'])) {
         if ($this->hemisphere === 'north') {
           $this->summer_temp_measurements[] = $this->$month_avg;
@@ -50,11 +55,9 @@ class InputList {
           $this->summer_temp_measurements[] = $this->$month_avg;
         }
       }
-      $this->avg_temp_array[] = $this->$month_avg;
-      $this->avg_temp_array_c[] = ($this->$month_avg - 32) / 1.8;
+      $this->avg_temp_array_c[] = $this->$month_avg;
     }
-    $this->avg_annual_temp_f = array_sum($this->avg_temp_array) / 12;
-    $this->avg_annual_temp_c = ($this->avg_annual_temp_f - 32) / 1.8;
+    $this->avg_annual_temp_c = array_sum($this->avg_temp_array_c) / 12;
   }
   public function get_avg_month_temps() {
     $this->avg_temp_jan = mean($this->high_temp_jan, $this->low_temp_jan);
@@ -89,7 +92,7 @@ class InputList {
   protected $total_rainfall_mm = 0;
   protected $summer_rainfall_mm = 0;
 
-  protected $summer_temp_measurements = []; // will be in Fahrenheit (?)
+  protected $summer_temp_measurements = []; // will be in Celsius
   protected $winter_temp_measurements = [];
   protected $summer_rain_measurements = []; // will be in mm
   protected $winter_rain_measurements = [];
@@ -97,15 +100,14 @@ class InputList {
   protected $tropical_threshold = 0;
   protected $dry_threshold = 0;
 
-  protected $avg_annual_temp_f = 0;
   protected $avg_annual_temp_c = 0;
 
   // A (tropical) climates
 
   public function is_tropical() {
-    // tropical climates have average temps for every month above 64.4 degrees F
+    // tropical climates have average temps for every month above 18 degrees C
     foreach (self::$avg_array as $avg_month_temp) {
-      if ($this->$avg_month_temp < 64.4) { // $this->$avg_month_temp is a double
+      if ($this->$avg_month_temp < 18) { // $this->$avg_month_temp is a double
         return false;
       }
     }

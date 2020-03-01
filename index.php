@@ -16,7 +16,8 @@ if (!empty($_POST)) {
   $_SESSION = $_POST;
   unset($_POST); // $_SESSION still retains values
   $list1 = new InputList($_SESSION);
-  $list1->print_self();
+  /* $list1->print_self(); */
+  echo $list1->determine_koppen_classification();
 }
 
 
@@ -44,7 +45,7 @@ print_r($_SESSION); */
     <main>
       <form method="post" class="form">
         <fieldset class="fieldset fieldset--month">
-          <legend>enter high & low temperatures by month (&deg;<span class="switchable switchable--temp">F</span>)</legend>
+          <legend>enter high & low temperatures by month (&deg;<span class="switchable switchable--temp"><?php echo $list1->unit === 'metric' ? 'C' : 'F'; ?></span>)</legend>
           <div class="form__div form__div--temp-grid">
             <p>
               <label for="high_temp_jan">January - high</label>
@@ -145,7 +146,7 @@ print_r($_SESSION); */
           </div>
         </fieldset>
         <fieldset class="fieldset fieldset--rain">
-          <legend>enter rainfall by month (<span class="switchable switchable--rain">inches</span>)</legend>
+          <legend>enter rainfall by month (<span class="switchable switchable--rain"><?php echo $list1->unit === 'metric' ? 'millimetres' : 'inches'; ?></span>)</legend>
           <div class="form__div form__div--rain-grid">
             <p>
               <label for="rain_jan">January</label>

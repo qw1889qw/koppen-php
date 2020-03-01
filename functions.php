@@ -4,6 +4,10 @@ function show_if_set($value) {
   echo $_SESSION[$value] ?? ''; // don't need to use session_start() in this script?
 }
 
+function f_to_c($temp) {
+  return ($temp - 32) * (5 / 9);
+}
+
 function mean($num1, $num2) { // only calculates mean of 2 numbers
   return ($num1 + $num2) / 2;
 }
