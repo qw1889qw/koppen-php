@@ -196,17 +196,20 @@ class InputList {
     }
   }
   public function is_s_w_or_f() { // note: this also works for D climates
+    // Cw climates have >=10x rainfall in wettest summer month as in driest winter month
+    // test w before s (e.g. Kunming, Yunnan, China satisfies both Csb & Cwb criteria but it's classified as Cwb)
+    $wettest_summer_month_rainfall = max($this->summer_rain_measurements);
+    $driest_winter_month_rainfall = min($this->winter_rain_measurements);
+    // strval() is to prevent issues w/ limited precision that come from comparing floats
+    if (($wettest_summer_month_rainfall >= 10 * $driest_winter_month_rainfall) || strval($wettest_summer_month_rainfall) === strval(10 * $driest_winter_month_rainfall)) {
+      return 'w';
+    }
     // Cs climates have >=3x rainfall in wettest winter month as in driest summer month & driest summer month gets <30mm rain
     $wettest_winter_month_rainfall = max($this->winter_rain_measurements);
     $driest_summer_month_rainfall = min($this->summer_rain_measurements);
-    if (($wettest_winter_month_rainfall >= 3 * $driest_summer_month_rainfall) && ($driest_summer_month_rainfall < 30)) {
+    // strval() is to prevent issues w/ limited precision that come from comparing floats
+    if ((($wettest_winter_month_rainfall >= 3 * $driest_summer_month_rainfall) || strval($wettest_winter_month_rainfall) === strval(3 * $driest_summer_month_rainfall)) && ($driest_summer_month_rainfall < 30)) {
       return 's';
-    }
-    // Cw climates have >=10x rainfall in wettest summer month as in driest winter month
-    $wettest_summer_month_rainfall = max($this->summer_rain_measurements);
-    $driest_winter_month_rainfall = min($this->winter_rain_measurements);
-    if (($wettest_summer_month_rainfall >= 10 * $driest_winter_month_rainfall)) {
-      return 'w';
     }
     // Cf climates don't satisfy Cs or Cw criteria
     return 'f';
