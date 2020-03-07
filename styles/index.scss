@@ -20,14 +20,28 @@ body {
   margin: 0;
 }
 
-header {
+.header-container {
+  @include mixins.use-flex(center, center, column);
+}
+
+.header {
+  width: 100%;
   padding: 2rem;
-  background: #f2f2f2;
-  @include mixins.center-flex;
-  flex-direction: column;
+  @include mixins.use-flex(center, center, column);
+  flex-grow: 1;
   & > * {
     padding: 1rem 0;
   }
+  &--start {
+    background: #f2f2f2;
+  }
+  &--determined {
+    background: #fbfbfb;
+  }
+}
+
+.classification {
+  font-size: 4.5rem;
 }
 
 main {
@@ -102,8 +116,142 @@ main {
   font-family: variables.$body-fonts;
 }
 
+.hidden { // credit: https://allyjs.io/tutorials/hiding-elements.html#how-to-hide-elements-semantically
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+/* class colors taken from Wikipedia (https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification) */
+
+.A {
+  &f {
+    color: #0000fe;
+  }
+  &m {
+    color: #0077ff;
+  }
+  &w {
+    color: #46a9fa;
+  }
+}
+
+.B {
+  &W {
+    &h {
+      color: #fe0000;
+    }
+    &k {
+      color: #fe9695;
+    }
+  }
+  &S {
+    &h {
+      color: #f5a301;
+    }
+    &k {
+      color: #ffdb63;
+    }
+  }
+}
+
+.C {
+  &s {
+    &a {
+      color: #ff0;
+    }
+    &b {
+      color: #c6c700;
+    }
+    &c {
+      color: #969600;
+    }
+  }
+  &w {
+    &a {
+      color: #96ff96;
+    }
+    &b {
+      color: #63c764;
+    }
+    &c {
+      color: #329633;
+    }
+  }
+  &f {
+    &a {
+      color: #c6ff4e;
+    }
+    &b {
+      color: #6f3;
+    }
+    &c {
+      color: #33c701;
+    }
+  }
+}
+
+.D {
+  &s {
+    &a {
+      color: #ff00fe;
+    }
+    &b {
+      color: #c600c7;
+    }
+    &c {
+      color: #963295;
+    }
+    &d {
+      color: #966495;
+    }
+  }
+  &w {
+    &a {
+      color: #abb1ff;
+    }
+    &b {
+      color: #5a77db;
+    }
+    &c {
+      color: #4c51b5;
+    }
+    &d {
+      color: #320087;
+    }
+  }
+  &f {
+    &a {
+      color: #0ff;
+    }
+    &b {
+      color: #38c7ff;
+    }
+    &c {
+      color: #007e7d;
+    }
+    &d {
+      color: #00455e;
+    }
+  }
+}
+
+.E {
+  &T {
+    color: #b2b2b2;
+  }
+  &F {
+    color: #686868;
+  }
+}
+
 @media (max-width: 767px) {
-  header {
+  .header-container {
     height: 100%;
   }
 }

@@ -1,5 +1,6 @@
-@mixin center-flex {
+@mixin use-flex($jc, $ai, $direction) {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: $jc;
+  align-items: $ai;
+  flex-direction: $direction;
 }

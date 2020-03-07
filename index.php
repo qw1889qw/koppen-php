@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', '1'); // delete once done
+/* ini_set('display_errors', '1'); */
 
 session_start();
 
@@ -17,7 +17,7 @@ if (!empty($_POST)) {
   unset($_POST); // $_SESSION still retains values
   $list1 = new InputList($_SESSION);
   /* $list1->print_self(); */
-  echo $list1->determine_koppen_classification();
+  $classification = $list1->determine_koppen_classification();
 }
 
 
@@ -38,10 +38,18 @@ print_r($_SESSION); */
     <title>Köppen-PHP</title>
   </head>
   <body>
-    <header>
-      <h1 class="heading heading--largest">Köppen-PHP</h1>
-      <h2 class="heading heading--second-largest">enter climate data & i'll figure out which Köppen climate classification your data corresponds to</h2>
-    </header>
+    <div class="header-container">
+      <?php if ($classification): ?>
+        <header class="header header--determined">
+          <h1 class="heading heading--smaller">this climate's classification is:</h1>
+          <strong class="classification <?php echo $classification === 'Aw/As' ? 'Aw' : $classification; ?>"><?php echo $classification; ?></strong>
+        </header>
+      <?php endif; ?>
+      <header class="header header--start">
+        <h1 class="heading heading--largest">Köppen-PHP</h1>
+        <h2 class="heading heading--second-largest">enter climate data & i'll figure out which Köppen climate classification your data corresponds to</h2>
+      </header>
+    </div>
     <main>
       <form method="post" class="form">
         <fieldset class="fieldset fieldset--month">

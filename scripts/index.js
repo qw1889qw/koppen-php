@@ -1,4 +1,4 @@
-import { metric, imperial, switchableTemp, switchableRain, clearButton } from './elements.js';
+import { metric, imperial, switchableTemp, switchableRain, clearButton, submitInput, startingHeader, classificationHeader, classificationStrong } from './elements.js';
 import { clearAllInputs } from './functions.js';
 
 /* switch text displayed depending on options chosen for temperature & rainfall units */
