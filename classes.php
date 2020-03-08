@@ -357,4 +357,101 @@ class InputList {
       return $classification;
     }
   }
+  public function get_classification_description($classification) {
+    switch ($classification) {
+      case 'Af':
+        return 'tropical rainforest';
+        break;
+      case 'Am':
+        return 'tropical monsoon';
+        break;
+      case 'Aw/As':
+        return 'tropical wet & dry or tropical savanna';
+        break;
+      case 'BWh':
+        return 'hot desert';
+        break;
+      case 'BWk':
+        return 'cold desert';
+        break;
+      case 'BSh':
+        return 'hot semi-arid';
+        break;
+      case 'BSk':
+        return 'cold semi-arid';
+        break;
+      case 'Csa':
+        return 'hot-summer Mediterranean';
+        break;
+      case 'Csb':
+        return 'warm-summer Mediterranean';
+        break;
+      case 'Csc':
+        return 'cold-summer Mediterranean';
+        break;
+      case 'Cwa':
+        return 'monsoon-influenced humid subtropical';
+        break;
+      case 'Cwb':
+        return 'subtropical highland or monsoon-influenced temperate oceanic';
+        break;
+      case 'Cwc':
+        return 'cold subtropical highland or monsoon-influenced subpolar oceanic';
+        break;
+      case 'Cfa':
+        return 'humid subtropical';
+        break;
+      case 'Cfb':
+        return 'temperate oceanic';
+        break;
+      case 'Cfc':
+        return 'subpolar oceanic';
+        break;
+      case 'Dsa':
+        return 'Mediterranean-influenced hot-summer humid continental';
+        break;
+      case 'Dsb':
+        return 'Mediterranean-influenced warm-summer humid continental';
+        break;
+      case 'Dsc':
+        return 'Mediterranean-influenced subarctic';
+        break;
+      case 'Dsd':
+        return 'Mediterranean-influenced extremely cold subarctic';
+        break;
+      case 'Dwa':
+        return 'monsoon-influenced hot-summer humid continental';
+        break;
+      case 'Dwb':
+        return 'monsoon-influenced warm-summer humid continental';
+        break;
+      case 'Dwc':
+        return 'monsoon-influenced subarctic';
+        break;
+      case 'Dwd':
+        return 'monsoon-influenced extremely cold subarctic';
+        break;
+      case 'Dfa':
+        return 'hot-summer humid continental';
+        break;
+      case 'Dfb':
+        return 'warm-summer humid continental';
+        break;
+      case 'Dfc':
+        return 'subarctic';
+        break;
+      case 'Dfd':
+        return 'extremely cold subarctic';
+        break;
+      case 'ET':
+        return 'tundra';
+        break;
+      case 'EF':
+        return 'ice cap';
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
 }

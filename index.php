@@ -18,6 +18,7 @@ if (!empty($_POST)) {
   $list1 = new InputList($_SESSION);
   /* $list1->print_self(); */
   $classification = $list1->determine_koppen_classification();
+  $description = $list1->get_classification_description($classification);
 }
 
 
@@ -43,6 +44,7 @@ print_r($_SESSION); */
         <header class="header header--determined">
           <h1 class="heading heading--smaller">this climate's classification is:</h1>
           <strong class="classification <?php echo $classification === 'Aw/As' ? 'Aw' : $classification; ?>"><?php echo $classification; ?></strong>
+          <span class="description">(<?php echo $description; ?>)</span>
         </header>
       <?php endif; ?>
       <header class="header header--start">

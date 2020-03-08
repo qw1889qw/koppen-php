@@ -44,6 +44,11 @@ body {
   font-size: 4.5rem;
 }
 
+.description {
+  font-style: italic;
+  font-size: .9em;
+}
+
 main {
   background: white;
   flex-grow: 1;
@@ -90,10 +95,8 @@ main {
 }
 
 .fieldset {
+  width: 97%;
   margin: 2vh auto;
-  &--rain {
-    width: 60vw;
-  }
 }
 
 .one-side {
@@ -254,10 +257,16 @@ main {
   .header-container {
     height: 100%;
   }
+  .fieldset--rain {
+    width: 60vw;
+  }
 }
 
 @media (min-width: 768px) {
   body {
     display: flex;
+  }
+  .header-container {
+    width: 40vw;
   }
 }
