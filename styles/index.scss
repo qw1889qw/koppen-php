@@ -40,6 +40,15 @@ body {
   }
 }
 
+.filler { // on desktops, take up entire left side of page
+  width: 35vw;
+  position: fixed;
+  left: 0;
+  min-height: 100%;
+  background-color: #f2f2f2;
+  z-index: -1;
+}
+
 .classification {
   font-size: 4.5rem;
 }
@@ -51,7 +60,7 @@ body {
 
 main {
   background: white;
-  flex-grow: 1;
+  width: 65vw;
 }
 
 .heading {
@@ -97,6 +106,9 @@ main {
 .fieldset {
   width: 97%;
   margin: 2vh auto;
+  &--rain {
+    width: 65%;
+  }
 }
 
 .one-side {
@@ -257,9 +269,12 @@ main {
   .header-container {
     height: 100%;
   }
-  .fieldset--rain {
-    width: 60vw;
+  main {
+    width: 100vw;
   }
+  /* .fieldset--rain {
+    width: 65vw;
+  } */
 }
 
 @media (min-width: 768px) {
@@ -267,6 +282,6 @@ main {
     display: flex;
   }
   .header-container {
-    width: 40vw;
+    width: 35vw;
   }
 }

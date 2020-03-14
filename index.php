@@ -52,6 +52,7 @@ print_r($_SESSION); */
         <h2 class="heading heading--second-largest">enter climate data & i'll figure out which Köppen climate classification your data corresponds to</h2>
       </header>
     </div>
+    <div class="filler"></div>
     <main>
       <form method="post" class="form">
         <fieldset class="fieldset fieldset--month">
@@ -250,6 +251,7 @@ print_r($_SESSION); */
         <div class="buttons">
           <button type="button" value="clear" class="form__button form__button--clear bottom-button">clear</button>
           <input type="submit" value="submit" class="form__input form__input--submit bottom-button">
+          <button type="button" value="save" class="form__button form__button--save bottom-button">save to csv</button>
         </div>
       </form>
     </main>
