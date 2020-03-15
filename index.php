@@ -15,10 +15,10 @@ require_once 'functions.php';
 if (!empty($_POST)) {
   $_SESSION = $_POST;
   unset($_POST); // $_SESSION still retains values
-  $list1 = new InputList($_SESSION);
-  /* $list1->print_self(); */
-  $classification = $list1->determine_koppen_classification();
-  $description = $list1->get_classification_description($classification);
+  $list = new InputList($_SESSION);
+  /* $list->print_self(); */
+  $classification = $list->determine_koppen_classification();
+  $description = $list->get_classification_description($classification);
 }
 
 
@@ -56,7 +56,7 @@ print_r($_SESSION); */
     <main>
       <form method="post" class="form">
         <fieldset class="fieldset fieldset--month">
-          <legend>enter high & low temperatures by month (&deg;<span class="switchable switchable--temp"><?php echo $list1->unit === 'metric' ? 'C' : 'F'; ?></span>)</legend>
+          <legend>enter high & low temperatures by month (&deg;<span class="switchable switchable--temp"><?php echo $list->unit === 'metric' ? 'C' : 'F'; ?></span>)</legend>
           <div class="form__div form__div--temp-grid">
             <p>
               <label for="high_temp_jan">January - high</label>
@@ -157,7 +157,7 @@ print_r($_SESSION); */
           </div>
         </fieldset>
         <fieldset class="fieldset fieldset--rain">
-          <legend>enter rainfall by month (<span class="switchable switchable--rain"><?php echo $list1->unit === 'metric' ? 'millimetres' : 'inches'; ?></span>)</legend>
+          <legend>enter rainfall by month (<span class="switchable switchable--rain"><?php echo $list->unit === 'metric' ? 'millimetres' : 'inches'; ?></span>)</legend>
           <div class="form__div form__div--rain-grid">
             <p>
               <label for="rain_jan">January</label>
@@ -214,11 +214,11 @@ print_r($_SESSION); */
           <div class="side-by-side">
             <p class="one-side">
               <label for="unit_metric">metric</label>
-              <input required class="form__input" type="radio" id="unit_metric" name="unit" value="metric" <?php determine_checked($list1, 'unit', 'metric'); ?>>
+              <input required class="form__input" type="radio" id="unit_metric" name="unit" value="metric" <?php determine_checked($list, 'unit', 'metric'); ?>>
             </p>
             <p class="one-side">
               <label for="unit_imperial">imperial</label>
-              <input required class="form__input" type="radio" id="unit_imperial" name="unit" value="imperial" <?php determine_checked_default($list1, 'unit', 'imperial'); ?>>
+              <input required class="form__input" type="radio" id="unit_imperial" name="unit" value="imperial" <?php determine_checked_default($list, 'unit', 'imperial'); ?>>
             </p>
           </div>
         </fieldset>
@@ -227,11 +227,11 @@ print_r($_SESSION); */
           <div class="side-by-side">
             <p class="one-side">
               <label for="isotherm-zero">0&deg;</label>
-              <input required class="form__input" type="radio" id="isotherm-zero" name="isotherm" value="zero" <?php determine_checked_default($list1, 'isotherm', 'zero'); ?>>
+              <input required class="form__input" type="radio" id="isotherm-zero" name="isotherm" value="zero" <?php determine_checked_default($list, 'isotherm', 'zero'); ?>>
             </p>
             <p class="one-side">
               <label for="isotherm-neg-three">-3&deg;</label>
-              <input required class="form__input" type="radio" id="isotherm-neg-three" name="isotherm" value="neg-three" <?php determine_checked($list1, 'isotherm', 'neg-three'); ?>>
+              <input required class="form__input" type="radio" id="isotherm-neg-three" name="isotherm" value="neg-three" <?php determine_checked($list, 'isotherm', 'neg-three'); ?>>
             </p>
           </div>
         </fieldset>
@@ -240,18 +240,17 @@ print_r($_SESSION); */
           <div class="side-by-side">
             <p class="one-side">
               <label for="hemisphere-north">north</label>
-              <input required class="form__input" type="radio" id="hemisphere-north" name="hemisphere" value="north" <?php determine_checked_default($list1, 'hemisphere', 'north'); ?>>
+              <input required class="form__input" type="radio" id="hemisphere-north" name="hemisphere" value="north" <?php determine_checked_default($list, 'hemisphere', 'north'); ?>>
             </p>
             <p class="one-side">
               <label for="hemisphere-south">south</label>
-              <input required class="form__input" type="radio" id="hemisphere-south" name="hemisphere" value="south" <?php determine_checked($list1, 'hemisphere', 'south'); ?>>
+              <input required class="form__input" type="radio" id="hemisphere-south" name="hemisphere" value="south" <?php determine_checked($list, 'hemisphere', 'south'); ?>>
             </p>
           </div>
         </fieldset>
         <div class="buttons">
           <button type="button" value="clear" class="form__button form__button--clear bottom-button">clear</button>
           <input type="submit" value="submit" class="form__input form__input--submit bottom-button">
-          <button type="button" value="save" class="form__button form__button--save bottom-button">save to csv</button>
         </div>
       </form>
     </main>
